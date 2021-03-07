@@ -11,6 +11,10 @@ sc_url = 'http://booking.tpsc.sporetrofit.com/Home/loadLocationPeopleNum'
 ntu_sc_url = 'https://ntusportscenter.ntu.edu.tw/counter.txt'
 dir = os.path.dirname(os.path.abspath(__file__))
 
+tz = pytz.timezone('Asia/Taipei') 
+t = datetime.now(tz)
+date_string = t.strftime("%Y-%m-%d")
+
 # df = resetDataFrame()
 
 def getCount():
@@ -23,13 +27,11 @@ def getCount():
 
 
 def newData():
-    with open(dir+'/data.csv','a') as datafile:
+    with open(dir+'/data/'+date_string+'.csv','a') as datafile:
             
         data_sportscenter_json, data_NTU_json = getCount()
 
         # time stamp
-        tz = pytz.timezone('Asia/Taipei') 
-        t = datetime.now(tz)
         t_string = t.strftime("%Y-%m-%d %H:%M")
 
 
@@ -54,8 +56,8 @@ def newData():
 
 if __name__ == '__main__':
 
-    if not os.path.exists(dir+'/data.csv'):
-        with open(dir+'/data.csv', 'a') as datafile:
+    if not os.path.exists(dir+'/data/'+date_string+'.csv'):
+        with open(dir+'/data/'+date_string+'.csv', 'a') as datafile:
             datafile.write(','.join(c)+'\n')
 
     newData()
